@@ -4,20 +4,25 @@ import { IPortfolio } from "../interfaces/models/IPortfolio";
 export class Deposit implements IDeposit {
   static nextVal: number = 0;
   id: number;
-  portfolio: IPortfolio;
+  customerPortfolioId: number;
+
   amount: number;
 
-  constructor(portfolio: IPortfolio, amount: number) {
+  constructor(customerPortfolioId: number, amount: number) {
     this.id = ++Deposit.nextVal;
-    this.portfolio = portfolio;
+    this.customerPortfolioId = customerPortfolioId;
     this.amount = amount;
+  }
+
+  getId() {
+    return this.id;
   }
 
   getAmount() {
     return this.amount;
   }
 
-  getPortfolio() {
-    return this.portfolio;
+  getCustomerPortfolioId() {
+    return this.customerPortfolioId;
   }
 }

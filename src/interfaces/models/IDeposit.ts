@@ -1,10 +1,14 @@
-import { IPortfolio } from "./IPortfolio";
-
-export interface IDeposit {
-  id: number;
-  portfolio: IPortfolio;
+interface IDepositData {
+  customerPortfolioId: number;
   amount: number;
-
-  getAmount: () => number;
-  getPortfolio: () => IPortfolio;
 }
+
+interface IDeposit extends IDepositData {
+  id: number;
+
+  getId: () => number;
+  getAmount: () => number;
+  getCustomerPortfolioId: () => number;
+}
+
+export { IDepositData, IDeposit };

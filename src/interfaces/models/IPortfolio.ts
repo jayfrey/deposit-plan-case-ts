@@ -1,9 +1,12 @@
 import { IOutputter } from "./IOutputter";
 
-export interface IPortfolio extends IOutputter {
-  id: number;
+interface IPortfolioData {
   name: string;
-  balance: number;
+  balance?: number;
+}
+
+interface IPortfolio extends IPortfolioData, IOutputter {
+  id: number;
 
   getId: () => number;
   setName: (name: string) => void;
@@ -11,3 +14,5 @@ export interface IPortfolio extends IOutputter {
   setBalance: (balance: number) => void;
   getBalance: () => number;
 }
+
+export { IPortfolioData, IPortfolio };

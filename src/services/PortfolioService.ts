@@ -1,19 +1,24 @@
-import { ICustomer } from "../interfaces/models/ICustomer";
-import { IPortfolio } from "../interfaces/models/IPortfolio";
+import { IPortfolioData } from "../interfaces/models/IPortfolio";
+import { IPortfolioRepository } from "../interfaces/repositories/IPortfolioRepository";
 import { IPortfolioService } from "../interfaces/services/IPortfolioService";
+import { PortfolioRepository } from "../repositories/PortfolioRepository";
 
 export class PortfolioService implements IPortfolioService {
-  customer: ICustomer;
-  portfolio: IPortfolio;
+  portfolioRepository: IPortfolioRepository;
 
-  constructor(customer: ICustomer, portfolio: IPortfolio) {
-    this.customer = customer;
-    this.portfolio = portfolio;
+  constructor() {
+    this.portfolioRepository = new PortfolioRepository();
   }
 
-  addPortfolio() {
-    var customer_portfolios = this.customer.getPortfolios();
-    customer_portfolios.push(this.portfolio);
-    this.customer.setPortfolios(customer_portfolios);
+  findAll() {
+    return this.portfolioRepository.findAll();
+  }
+
+  findById(id: number) {
+    return this.portfolioRepository.findById(id);
+  }
+
+  create(data: IPortfolioData) {
+    return this.portfolioRepository.create(data);
   }
 }

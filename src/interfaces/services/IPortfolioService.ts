@@ -1,12 +1,9 @@
-import { Portfolio } from "../../models/Portfolio";
-import { ICustomer } from "../models/ICustomer";
-import { IPortfolio } from "../models/IPortfolio";
+import { IPortfolio, IPortfolioData } from "../models/IPortfolio";
+import { IPortfolioRepository } from "../repositories/IPortfolioRepository";
 
 export interface IPortfolioService {
-  customer: ICustomer;
-  portfolio: IPortfolio;
-  //   portfolios: IPortfolio[];
-
-  addPortfolio: () => void;
-  //   addPortfolios: () => void;
+  portfolioRepository: IPortfolioRepository;
+  findAll: () => IPortfolio[];
+  findById: (id: number) => IPortfolio | null;
+  create: (data: IPortfolioData) => IPortfolio;
 }
