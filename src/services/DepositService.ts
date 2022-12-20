@@ -3,8 +3,10 @@ import { ICustomer } from "../interfaces/models/ICustomer";
 import { IDeposit, IDepositData } from "../interfaces/models/IDeposit";
 import { IDepositPlan } from "../interfaces/models/IDepositPlan";
 import { IDepositRepository } from "../interfaces/repositories/IDepositRespository";
+import { IDepositPlanService } from "../interfaces/services/IDepositPlanService";
 import { IDepositService } from "../interfaces/services/IDepositService";
 import { DepositRepository } from "../repositories/DepositRepository";
+import { DepositPlanService } from "./DepositPlanService";
 
 export class DepositService implements IDepositService {
   // customer: ICustomer;
@@ -34,9 +36,11 @@ export class DepositService implements IDepositService {
   // }
 
   depositRepository: IDepositRepository;
+  depositPlanService: IDepositPlanService;
 
   constructor() {
     this.depositRepository = new DepositRepository();
+    this.depositPlanService = new DepositPlanService();
   }
 
   findAll() {
@@ -48,6 +52,13 @@ export class DepositService implements IDepositService {
   }
 
   create(data: IDepositData) {
-    return this.depositRepository.create(data);
+    var depositPlan = this.depositPlanService.findById(data.depositPlanId);
+
+    if (depositPlan != null) {
+      var deposit = this.depositRepository.create(data);
+      depositPlan.refresh();
+      return deposit;
+    }
+    return null;
   }
 }

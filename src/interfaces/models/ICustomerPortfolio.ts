@@ -4,35 +4,26 @@ import { IDepositPlan } from "./IDepositPlan";
 import { ICustomer } from "./ICustomer";
 
 interface ICustomerPortfolioData {
-  //   name: string;
-  //   portfolios?: IPortfolio[];
-  //   depositPlans?: IDepositPlan[];
   customerId: number;
   portfolioId: number;
+  balance?: number;
 }
 
 interface ICustomerPortfolio extends ICustomerPortfolioData, IOutputter {
   id: number;
-  customer: ICustomer | null;
-  portfolio: IPortfolio | null;
+  customer?: ICustomer | null;
+  portfolio?: IPortfolio | null;
 
   getId: () => number;
   getCustomerId: () => number;
   getPortfolioId: () => number;
-  getCustomer: () => ICustomer | null;
-  getPorfolio: () => IPortfolio | null;
-  // getIdByCustomerId: (customerId: number) => number;
-  // getIdByCustomerIdAndPortfolioId: (
-  //   customerId: number,
-  //   portfolioId: number
-  // ) => number;
-  //   setName: (name: string) => void;
-  //   getName: () => string;
 
-  //   setPortfolios: (portfolios: IPortfolio[]) => void;
-  //   getPortfolios: () => IPortfolio[];
-  //   setDepositPlans: (depositPlans: IDepositPlan[]) => void;
-  //   getDepositPlans: () => IDepositPlan[];
+  setBalance: (balance: number) => void;
+  getBalance: () => number;
+
+  getPortfolio: () => IPortfolio | null;
+  refreshCustomer: () => void;
+  refreshPorfolio: () => void;
 }
 
 export { ICustomerPortfolioData, ICustomerPortfolio };

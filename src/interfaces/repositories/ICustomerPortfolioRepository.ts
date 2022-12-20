@@ -6,5 +6,8 @@ import {
 export interface ICustomerPortfolioRepository {
   findAll: () => ICustomerPortfolio[];
   findById: (id: number) => ICustomerPortfolio | null;
-  create: (data: ICustomerPortfolioData) => ICustomerPortfolio;
+  create: ({
+    customerId,
+    portfolioId,
+  }: ICustomerPortfolioData) => ICustomerPortfolio;
 }

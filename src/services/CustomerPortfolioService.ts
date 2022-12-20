@@ -5,6 +5,7 @@ import { CustomerService } from "./CustomerService";
 import { PortfolioService } from "./PortfolioService";
 import { CustomerPortfolioRepository } from "../repositories/CustomerPortfolioRepository";
 import { ICustomerPortfolioRepository } from "../interfaces/repositories/ICustomerPortfolioRepository";
+import { ICustomerPortfolioData } from "../interfaces/models/ICustomerPortfolio";
 
 export class CustomerPorfolioService implements ICustomerPorfolioService {
   customerService: ICustomerService;
@@ -26,15 +27,18 @@ export class CustomerPorfolioService implements ICustomerPorfolioService {
   }
 
   // To handle portfolio or customer when is not found
-  create(data: { customerId: number; portfolioId: number }) {
+  create(data: ICustomerPortfolioData) {
     var customer = this.customerService.findById(data.customerId);
     var portfolio = this.portfolioService.findById(data.portfolioId);
 
-    // if (customer != null && portfolio != null) {
-    // var currentPortfolio = customer.getPortfolios();
-    // currentPortfolio.push(portfolio);
-    // customer.setPortfolios(currentPortfolio);
-    return this.customerPortfolioRepository.create(data);
-    // }
+    if (customer != null && portfolio != null) {
+      var customerPortfolio = this.customerPortfolioRepository.create(data);
+
+      if (customerPortfolio != null) {
+        customer.refresh();
+        return customerPortfolio;
+      }
+    }
+    return null;
   }
 }

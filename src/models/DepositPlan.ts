@@ -1,33 +1,56 @@
-import { IDeposit } from "../interfaces/models/IDeposit";
+import { depositData } from "../data/Deposits";
+import { IDeposit, IDepositData } from "../interfaces/models/IDeposit";
 import { IDepositPlan } from "../interfaces/models/IDepositPlan";
 import { Deposit } from "./Deposit";
 
 export class DepositPlan implements IDepositPlan {
   static nextVal: number = 0;
   id: number;
+  customerId: number;
   type: number;
-  deposits: IDeposit[];
-  total: number;
+  deposits?: IDeposit[];
+  totalFundDeposit: number;
 
-  constructor(type: number, deposits: IDeposit[]) {
+  constructor(customerId: number, type: number) {
     this.id = ++DepositPlan.nextVal;
     this.type = type;
-    this.deposits = deposits;
-    this.total = this.getTotalDeposit();
+    this.customerId = customerId;
+    this.totalFundDeposit = 0.0;
+    this.refresh();
+  }
+
+  getId() {
+    return this.id;
   }
 
   getType() {
     return this.type;
   }
 
-  getDeposits() {
-    return this.deposits;
+  getCustomerId() {
+    return this.customerId;
   }
 
-  getTotalDeposit() {
-    return this.getDeposits().reduce((total: number, deposit: Deposit) => {
-      return total + deposit.getAmount();
-    }, 0.0);
+  getDeposits() {
+    return this.deposits || [];
+  }
+
+  refreshTotalFundDeposit() {
+    this.totalFundDeposit =
+      this.deposits?.reduce((total: number, deposit: IDeposit) => {
+        return total + deposit.getAmount();
+      }, 0.0) || 0.0;
+  }
+
+  refreshDeposits() {
+    this.deposits = depositData.filter((deposit: IDeposit) => {
+      return deposit.getDepositPlanId() == this.id;
+    });
+  }
+
+  refresh() {
+    this.refreshDeposits();
+    this.refreshTotalFundDeposit();
   }
 
   toJSON() {
@@ -35,7 +58,7 @@ export class DepositPlan implements IDepositPlan {
       id: this.id,
       type: this.type,
       deposit: this.deposits,
-      total: this.total,
+      // total: this.total,
     };
   }
 

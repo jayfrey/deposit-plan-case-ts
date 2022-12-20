@@ -1,4 +1,5 @@
 interface IDepositData {
+  depositPlanId: number;
   customerPortfolioId: number;
   amount: number;
 }
@@ -9,6 +10,7 @@ interface IDeposit extends IDepositData {
   getId: () => number;
   getAmount: () => number;
   getCustomerPortfolioId: () => number;
+  getDepositPlanId: () => number;
 }
 
 export { IDepositData, IDeposit };

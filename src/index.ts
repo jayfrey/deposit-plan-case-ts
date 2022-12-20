@@ -8,8 +8,9 @@ import { PortfolioService } from "./services/PortfolioService";
 import { DepositService } from "./services/DepositService";
 import { CustomerService } from "./services/CustomerService";
 import { CustomerPorfolioService } from "./services/CustomerPortfolioService";
-import { customerPortfolios } from "./data/CustomerPortfolios";
+import { customerPortfolioData } from "./data/CustomerPortfolioData";
 import { IPortfolio } from "./interfaces/models/IPortfolio";
+import { DepositPlanService } from "./services/DepositPlanService";
 
 var customerService = new CustomerService();
 var customer1 = customerService.create({ name: "Jay" });
@@ -38,20 +39,32 @@ var customerRetirementPortfolio = customerPortfolioService.create({
 // console.log("customerHighRiskPortfolio", customerHighRiskPortfolio);
 // console.log("customerRetirementPortfolio", customerRetirementPortfolio);
 
+var depositPlanService = new DepositPlanService();
+
+var depositPlan1 = depositPlanService.create({
+  customerId: customer1.getId(),
+  type: DepositPlanTypes.ONE_TIME,
+});
+
 var depositService = new DepositService();
 
 var deposit1 = depositService.create({
-  customerPortfolioId: customerHighRiskPortfolio.getId(),
+  depositPlanId: depositPlan1!.getId(),
+  customerPortfolioId: customerHighRiskPortfolio!.getId(),
   amount: 10000,
 });
 
 var deposit2 = depositService.create({
-  customerPortfolioId: customerRetirementPortfolio.getId(),
+  depositPlanId: depositPlan1!.getId(),
+  customerPortfolioId: customerRetirementPortfolio!.getId(),
   amount: 500,
 });
 
+// console.log(depositPlan1);
+
 // console.log(depositService.findAll());
 // console.log(customerPortfolioService.findAll());
+// customer1.getPortfolios();
 // console.log(customerService.findAll());
 // console.log(customer1);
 console.log(customerService.findById(1));

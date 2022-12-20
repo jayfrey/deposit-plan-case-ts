@@ -9,15 +9,16 @@ export class CustomerPortfolio implements ICustomerPortfolio {
   id: number;
   customerId: number;
   portfolioId: number;
-  customer: ICustomer | null;
-  portfolio: IPortfolio | null;
+  balance: number;
+  customer?: ICustomer | null;
+  portfolio?: IPortfolio | null;
 
   constructor(customerId: number, portfolioId: number) {
     this.id = ++CustomerPortfolio.nextVal;
     this.customerId = customerId;
     this.portfolioId = portfolioId;
-    this.customer = this.getCustomer();
-    this.portfolio = this.getPorfolio();
+    this.balance = 0.0;
+    this.refresh();
   }
 
   getId() {
@@ -32,24 +33,39 @@ export class CustomerPortfolio implements ICustomerPortfolio {
     return this.portfolioId;
   }
 
-  getCustomer() {
-    return (
+  setBalance(balance: number) {
+    this.balance = balance;
+  }
+
+  getBalance() {
+    return this.balance;
+  }
+
+  getPortfolio() {
+    return this.portfolio || null;
+  }
+
+  refreshCustomer() {
+    this.customer =
       customers.find((customer: ICustomer) => {
         if (customer.getId() === this.customerId) {
           return customer;
         }
-      }) || null
-    );
+      }) || null;
   }
 
-  getPorfolio() {
-    return (
+  refreshPorfolio() {
+    this.portfolio =
       portfolios.find((portfolio: IPortfolio) => {
         if (portfolio.getId() === this.portfolioId) {
           return portfolio;
         }
-      }) || null
-    );
+      }) || null;
+  }
+
+  refresh() {
+    this.refreshCustomer();
+    this.refreshPorfolio();
   }
 
   //   setName(name: string) {
@@ -81,6 +97,7 @@ export class CustomerPortfolio implements ICustomerPortfolio {
       id: this.id,
       customerId: this.customerId,
       portfolioId: this.portfolioId,
+      balance: this.balance,
     };
   }
 

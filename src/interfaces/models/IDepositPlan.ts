@@ -1,11 +1,22 @@
 import { IDeposit } from "./IDeposit";
 
-export interface IDepositPlan {
+interface IDepositPlanData {
+  customerId: number;
   type: number;
-  deposits: IDeposit[];
-  total: number;
+}
 
+interface IDepositPlan extends IDepositPlanData {
+  id: number;
+  deposits?: IDeposit[];
+  totalFundDeposit: number;
+
+  getId: () => number;
+  getCustomerId: () => number;
   getType: () => number;
   getDeposits: () => IDeposit[];
-  getTotalDeposit: () => number;
+
+  refreshDeposits: () => void;
+  refresh: () => void;
 }
+
+export { IDepositPlanData, IDepositPlan };

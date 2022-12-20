@@ -1,4 +1,4 @@
-import { customerPortfolios } from "../data/CustomerPortfolios";
+import { customerPortfolioData } from "../data/CustomerPortfolioData";
 import {
   ICustomerPortfolio,
   ICustomerPortfolioData,
@@ -10,11 +10,11 @@ export class CustomerPortfolioRepository
   implements ICustomerPortfolioRepository
 {
   findAll() {
-    return customerPortfolios;
+    return customerPortfolioData;
   }
   findById(id: number) {
     return (
-      customerPortfolios.find((customerPortfolio: ICustomerPortfolio) => {
+      customerPortfolioData.find((customerPortfolio: ICustomerPortfolio) => {
         if (customerPortfolio.getId() === id) {
           return customerPortfolio;
         }
@@ -23,7 +23,7 @@ export class CustomerPortfolioRepository
   }
   create({ customerId, portfolioId }: ICustomerPortfolioData) {
     var customerPortfolio = new CustomerPortfolio(customerId, portfolioId);
-    customerPortfolios.push(customerPortfolio);
+    customerPortfolioData.push(customerPortfolio);
     return customerPortfolio;
   }
 }

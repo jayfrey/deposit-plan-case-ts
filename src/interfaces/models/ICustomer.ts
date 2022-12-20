@@ -1,6 +1,6 @@
-import { IPortfolio } from "./IPortfolio";
 import { IOutputter } from "./IOutputter";
 import { IDepositPlan } from "./IDepositPlan";
+import { ICustomerPortfolio } from "./ICustomerPortfolio";
 
 interface ICustomerData {
   name: string;
@@ -8,19 +8,16 @@ interface ICustomerData {
 
 interface ICustomer extends ICustomerData, IOutputter {
   id: number;
-  portfolios: IPortfolio[];
-  // depositPlans: IDepositPlan[];
+  customerPortfolios?: ICustomerPortfolio[];
+  depositPlans?: IDepositPlan[];
 
   getId: () => number;
   setName: (name: string) => void;
   getName: () => string;
 
-  getPortfolios: () => IPortfolio[];
-
-  // setPortfolios: (portfolios: IPortfolio[]) => void;
-  // getPortfolios: () => IPortfolio[];
-  // setDepositPlans: (depositPlans: IDepositPlan[]) => void;
-  // getDepositPlans: () => IDepositPlan[];
+  refreshCustomerPortfolios: (customerPortfolios: ICustomerPortfolio[]) => void;
+  refreshDepositPlans: (depositPlans: IDepositPlan[]) => void;
+  refresh: () => void;
 }
 
 export { ICustomerData, ICustomer };

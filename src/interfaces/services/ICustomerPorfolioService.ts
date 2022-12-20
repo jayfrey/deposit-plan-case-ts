@@ -13,5 +13,5 @@ export interface ICustomerPorfolioService {
   create: (data: {
     customerId: number;
     portfolioId: number;
-  }) => ICustomerPortfolio;
+  }) => ICustomerPortfolio | null;
 }

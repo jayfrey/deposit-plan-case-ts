@@ -1,21 +1,20 @@
-import { customerPortfolios } from "../data/CustomerPortfolios";
-import { portfolios } from "../data/Portfolios";
+import { customerPortfolioData } from "../data/CustomerPortfolioData";
+import { depositPlanData } from "../data/DepositPlanData";
 import { ICustomer } from "../interfaces/models/ICustomer";
+import { ICustomerPortfolio } from "../interfaces/models/ICustomerPortfolio";
 import { IDepositPlan } from "../interfaces/models/IDepositPlan";
-import { IPortfolio } from "../interfaces/models/IPortfolio";
 
 export class Customer implements ICustomer {
   static nextVal: number = 0;
   id: number;
   name: string;
-  portfolios: IPortfolio[];
-  // depositPlans: IDepositPlan[];
+  customerPortfolios?: ICustomerPortfolio[];
+  depositPlans?: IDepositPlan[];
 
   constructor(name: string) {
     this.id = ++Customer.nextVal;
     this.name = name;
-    this.portfolios = this.getPortfolios();
-    // this.depositPlans = [];
+    this.refresh();
   }
 
   getId() {
@@ -30,39 +29,34 @@ export class Customer implements ICustomer {
     return this.name;
   }
 
-  getPortfolios() {
-    var portfolios: IPortfolio[] = [];
-    customerPortfolios.map((customerPortfolio) => {
-      if (customerPortfolio.getCustomerId() == this.id) {
-        const portfolio = customerPortfolio.getPorfolio();
-        if (portfolio != null) portfolios.push(portfolio);
-      }
-    });
-
-    return portfolios;
+  getCustomerPortfolio() {
+    return this.customerPortfolios;
   }
 
-  // setPortfolios(portfolios: IPortfolio[]) {
-  //   this.portfolios = portfolios;
-  // }
+  refreshCustomerPortfolios() {
+    this.customerPortfolios = customerPortfolioData.filter(
+      (customerPortfolio: ICustomerPortfolio) => {
+        return customerPortfolio.getCustomerId() == this.id;
+      }
+    );
+  }
 
-  // getPortfolios() {
-  //   return this.portfolios;
-  // }
+  refreshDepositPlans() {
+    this.depositPlans = depositPlanData.filter((depositPlan: IDepositPlan) => {
+      return depositPlan.getCustomerId() == this.id;
+    });
+  }
 
-  // setDepositPlans(depositPlans: IDepositPlan[]) {
-  //   this.depositPlans = depositPlans;
-  // }
-
-  // getDepositPlans() {
-  //   return this.depositPlans;
-  // }
+  refresh() {
+    this.refreshCustomerPortfolios();
+    this.refreshDepositPlans();
+  }
 
   toJSON() {
     return {
       id: this.id,
       name: this.name,
-      portfolios: this.portfolios,
+      // portfolios: this.portfolios,
       // depositPlans: this.depositPlans,
     };
   }
