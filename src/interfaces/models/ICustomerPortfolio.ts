@@ -1,6 +1,5 @@
 import { IPortfolio } from "./IPortfolio";
 import { IOutputter } from "./IOutputter";
-import { IDepositPlan } from "./IDepositPlan";
 import { ICustomer } from "./ICustomer";
 
 interface ICustomerPortfolioData {
@@ -20,10 +19,12 @@ interface ICustomerPortfolio extends ICustomerPortfolioData, IOutputter {
 
   setBalance: (balance: number) => void;
   getBalance: () => number;
-
   getPortfolio: () => IPortfolio | null;
+
+  refreshBalance: () => void;
   refreshCustomer: () => void;
   refreshPorfolio: () => void;
+  refresh: () => void;
 }
 
 export { ICustomerPortfolioData, ICustomerPortfolio };

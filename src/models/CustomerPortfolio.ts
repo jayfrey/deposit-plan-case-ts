@@ -1,7 +1,10 @@
 import { customers } from "../data/Customers";
+import { depositPlanData } from "../data/DepositPlanData";
 import { portfolios } from "../data/Portfolios";
 import { ICustomer } from "../interfaces/models/ICustomer";
 import { ICustomerPortfolio } from "../interfaces/models/ICustomerPortfolio";
+import { IDeposit } from "../interfaces/models/IDeposit";
+import { IDepositPlan } from "../interfaces/models/IDepositPlan";
 import { IPortfolio } from "../interfaces/models/IPortfolio";
 
 export class CustomerPortfolio implements ICustomerPortfolio {
@@ -45,6 +48,20 @@ export class CustomerPortfolio implements ICustomerPortfolio {
     return this.portfolio || null;
   }
 
+  refreshBalance() {
+    var balance = 0;
+    depositPlanData.map((depositPlan: IDepositPlan) => {
+      if (depositPlan.getCustomerId() == this.customerId) {
+        depositPlan.getDeposits().map((deposit: IDeposit) => {
+          if (deposit.getCustomerPortfolioId() == this.id) {
+            balance = balance + deposit.amount;
+          }
+        });
+      }
+    });
+    this.balance = balance;
+  }
+
   refreshCustomer() {
     this.customer =
       customers.find((customer: ICustomer) => {
@@ -66,6 +83,7 @@ export class CustomerPortfolio implements ICustomerPortfolio {
   refresh() {
     this.refreshCustomer();
     this.refreshPorfolio();
+    this.refreshBalance();
   }
 
   //   setName(name: string) {
