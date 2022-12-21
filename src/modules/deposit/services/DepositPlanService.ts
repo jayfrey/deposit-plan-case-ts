@@ -1,18 +1,21 @@
-import { Settings } from "../../../constants/Settings";
 import { IDepositPlanData } from "../interfaces/IDepositPlan";
-import { IDepositPlanRepository } from "../interfaces/IDepositPlanRespository";
-import { ICustomerService } from "../../customer/interfaces/ICustomerService";
+import { IDepositPlanRepository } from "../interfaces/IDepositPlanRepository";
+import { ICustomerPorfolioService } from "../../portfolio/interfaces/ICustomerPorfolioService";
+import { IFundDepositService } from "../interfaces/IFundDepositService";
 import { IDepositPlanService } from "../interfaces/IDepositPlanService";
 import { DepositPlanRepository } from "../repositories/DepositPlanRepository";
-import { CustomerService } from "../../customer/services/CustomerService";
+import { CustomerPorfolioService } from "../../portfolio/services/CustomerPortfolioService";
+import { FundDepositService } from "./FundDepositService";
 
 export class DepositPlanService implements IDepositPlanService {
-  customerService: ICustomerService;
   depositPlanRepository: IDepositPlanRepository;
+  fundDepositService: IFundDepositService;
+  customerPortfolioService: ICustomerPorfolioService;
 
   constructor() {
-    this.customerService = new CustomerService();
     this.depositPlanRepository = new DepositPlanRepository();
+    this.fundDepositService = new FundDepositService();
+    this.customerPortfolioService = new CustomerPorfolioService();
   }
 
   findAll() {
@@ -24,23 +27,16 @@ export class DepositPlanService implements IDepositPlanService {
   }
 
   create(data: IDepositPlanData) {
-    var customer = this.customerService.findById(data.customerId);
+    var fundDeposit = this.fundDepositService.findById(data.fundDepositId);
+    var customerPortfolio = this.customerPortfolioService.findById(
+      data.customerPortfolioId
+    );
 
-    if (customer != null) {
-      if (customer.depositPlans!.length < Settings.MAX_DEPOSIT_PLAN) {
-        var depositPlan = this.depositPlanRepository.create(data);
-
-        if (depositPlan != null) {
-          customer.refresh();
-          return depositPlan;
-        }
-      } else {
-        console.log(
-          "You've reached the maximum number of deposit plans." +
-            "The maximum number of deposit plans is " +
-            Settings.MAX_DEPOSIT_PLAN
-        );
-      }
+    if (fundDeposit != null && customerPortfolio != null) {
+      var depositPlan = this.depositPlanRepository.create(data);
+      fundDeposit.refresh();
+      customerPortfolio?.refresh();
+      return depositPlan;
     }
     return null;
   }

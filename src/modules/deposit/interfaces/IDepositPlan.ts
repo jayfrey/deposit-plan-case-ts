@@ -1,24 +1,18 @@
-import { IDeposit } from "./IDeposit";
 import { IOutputter } from "../../shared/interfaces/IOutputter";
-import { IModelHelper } from "../../shared/interfaces/IModelHelper";
 
 interface IDepositPlanData {
-  customerId: number;
-  type: number;
+  fundDepositId: number;
+  customerPortfolioId: number;
+  amount: number;
 }
 
-interface IDepositPlan extends IDepositPlanData, IOutputter, IModelHelper {
+interface IDepositPlan extends IDepositPlanData, IOutputter {
   id: number;
-  deposits?: IDeposit[];
-  totalFundDeposit: number;
 
   getId: () => number;
-  getType: () => number;
-  getCustomerId: () => number;
-  getDeposits: () => IDeposit[];
-  getTotalFundDeposit: () => number;
-
-  refreshDeposits: () => void;
+  getFundDepositId: () => number;
+  getCustomerPortfolioId: () => number;
+  getAmount: () => number;
 }
 
 export { IDepositPlanData, IDepositPlan };

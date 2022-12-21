@@ -1,15 +1,15 @@
 import { customerPortfolioData } from "../../../data/CustomerPortfolioData";
-import { depositPlanData } from "../../../data/DepositPlanData";
+import { fundDepositData } from "../../../data/FundDepositData";
 import { ICustomer } from "../interfaces/ICustomer";
 import { ICustomerPortfolio } from "../../portfolio/interfaces/ICustomerPortfolio";
-import { IDepositPlan } from "../../deposit/interfaces/IDepositPlan";
+import { IFundDeposit } from "../../deposit/interfaces/IFundDeposit";
 
 export class Customer implements ICustomer {
   static nextVal: number = 0;
   id: number;
   name: string;
   customerPortfolios?: ICustomerPortfolio[];
-  depositPlans?: IDepositPlan[];
+  fundDeposits?: IFundDeposit[];
 
   constructor(name: string) {
     this.id = ++Customer.nextVal;
@@ -33,8 +33,8 @@ export class Customer implements ICustomer {
     return this.customerPortfolios || [];
   }
 
-  getDepositPlans() {
-    return this.depositPlans || [];
+  getFundDeposits() {
+    return this.fundDeposits || [];
   }
 
   refreshCustomerPortfolios() {
@@ -45,15 +45,15 @@ export class Customer implements ICustomer {
     );
   }
 
-  refreshDepositPlans() {
-    this.depositPlans = depositPlanData.filter((depositPlan: IDepositPlan) => {
-      return depositPlan.getCustomerId() == this.id;
+  refreshFundDeposits() {
+    this.fundDeposits = fundDepositData.filter((fundDeposit: IFundDeposit) => {
+      return fundDeposit.getCustomerId() == this.id;
     });
   }
 
   refresh() {
     this.refreshCustomerPortfolios();
-    this.refreshDepositPlans();
+    this.refreshFundDeposits();
   }
 
   toJSON() {
@@ -65,8 +65,8 @@ export class Customer implements ICustomer {
           return customerPortfolio.toJSON();
         }
       ),
-      deposit_plans: this.depositPlans?.map((depositPlan: IDepositPlan) => {
-        return depositPlan.toJSON();
+      fund_deposits: this.fundDeposits?.map((fundDeposit: IFundDeposit) => {
+        return fundDeposit.toJSON();
       }),
     };
   }

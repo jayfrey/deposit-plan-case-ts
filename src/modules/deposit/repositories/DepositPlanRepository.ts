@@ -1,6 +1,6 @@
 import { depositPlanData } from "../../../data/DepositPlanData";
 import { IDepositPlan, IDepositPlanData } from "../interfaces/IDepositPlan";
-import { IDepositPlanRepository } from "../interfaces/IDepositPlanRespository";
+import { IDepositPlanRepository } from "../interfaces/IDepositPlanRepository";
 import { DepositPlan } from "../models/DepositPlan";
 
 export class DepositPlanRepository implements IDepositPlanRepository {
@@ -18,8 +18,12 @@ export class DepositPlanRepository implements IDepositPlanRepository {
     );
   }
 
-  create({ customerId, type }: IDepositPlanData) {
-    var depositPlan = new DepositPlan(customerId, type);
+  create({ fundDepositId, customerPortfolioId, amount }: IDepositPlanData) {
+    var depositPlan = new DepositPlan(
+      fundDepositId,
+      customerPortfolioId,
+      amount
+    );
     depositPlanData.push(depositPlan);
     return depositPlan;
   }

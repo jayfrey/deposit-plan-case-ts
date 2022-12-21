@@ -1,10 +1,10 @@
 import { customerData } from "../../../data/CustomerData";
-import { depositPlanData } from "../../../data/DepositPlanData";
+import { fundDepositData } from "../../../data/FundDepositData";
 import { basePortfolioData } from "../../../data/BasePortfolioData";
 import { ICustomer } from "../../customer/interfaces/ICustomer";
 import { ICustomerPortfolio } from "../interfaces/ICustomerPortfolio";
-import { IDeposit } from "../../deposit/interfaces/IDeposit";
 import { IDepositPlan } from "../../deposit/interfaces/IDepositPlan";
+import { IFundDeposit } from "../../deposit/interfaces/IFundDeposit";
 import { IBasePortfolio } from "../interfaces/IBasePortfolio";
 
 export class CustomerPortfolio implements ICustomerPortfolio {
@@ -61,11 +61,11 @@ export class CustomerPortfolio implements ICustomerPortfolio {
 
   refreshBalance() {
     var balance = 0.0;
-    depositPlanData.map((depositPlan: IDepositPlan) => {
-      if (depositPlan.getCustomerId() == this.customerId) {
-        depositPlan.getDeposits().map((deposit: IDeposit) => {
-          if (deposit.getCustomerPortfolioId() == this.id) {
-            balance = balance + deposit.amount;
+    fundDepositData.map((fundDeposit: IFundDeposit) => {
+      if (fundDeposit.getCustomerId() == this.customerId) {
+        fundDeposit.getDepositPlans().map((depositPlan: IDepositPlan) => {
+          if (depositPlan.getCustomerPortfolioId() == this.id) {
+            balance = balance + depositPlan.amount;
           }
         });
       }
