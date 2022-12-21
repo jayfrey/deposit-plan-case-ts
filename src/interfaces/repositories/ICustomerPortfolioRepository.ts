@@ -9,5 +9,6 @@ export interface ICustomerPortfolioRepository {
   create: ({
     customerId,
     basePortfolioId,
+    name,
   }: ICustomerPortfolioData) => ICustomerPortfolio;
 }

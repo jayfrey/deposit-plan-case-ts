@@ -12,14 +12,16 @@ export class CustomerPortfolio implements ICustomerPortfolio {
   id: number;
   customerId: number;
   basePortfolioId: number;
+  name?: string;
   balance: number = 0.0;
   customer?: ICustomer | null;
   basePortfolio?: IBasePortfolio | null;
 
-  constructor(customerId: number, basePortfolioId: number) {
+  constructor(customerId: number, basePortfolioId: number, name?: string) {
     this.id = ++CustomerPortfolio.nextVal;
     this.customerId = customerId;
     this.basePortfolioId = basePortfolioId;
+    this.name = name || this.getBasePortfolioName();
     this.refresh();
   }
 
@@ -33,6 +35,16 @@ export class CustomerPortfolio implements ICustomerPortfolio {
 
   getBasePortfolioId() {
     return this.basePortfolioId;
+  }
+
+  getBasePortfolioName() {
+    return basePortfolioData
+      .find((basePortfolio: IBasePortfolio) => {
+        if (basePortfolio.getId() === this.basePortfolioId) {
+          return basePortfolio;
+        }
+      })
+      ?.getName()!;
   }
 
   setBalance(balance: number) {
@@ -90,6 +102,7 @@ export class CustomerPortfolio implements ICustomerPortfolio {
       id: this.id,
       customer_id: this.customerId,
       base_portfolio_id: this.basePortfolioId,
+      name: this.name,
       balance: this.balance,
     };
   }

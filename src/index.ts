@@ -27,11 +27,13 @@ function createCustomerPortfolio() {
   customerPortfolioService.create({
     customerId: customer.getId(),
     basePortfolioId: highRiskPortfolio.getId(),
+    name: "High Risk", // Custom name for Portfolio
   });
 
   customerPortfolioService.create({
     customerId: customer.getId(),
     basePortfolioId: retirementPortfolio.getId(),
+    name: "Retirement",
   });
 }
 

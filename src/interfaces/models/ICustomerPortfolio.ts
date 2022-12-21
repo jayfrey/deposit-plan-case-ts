@@ -1,4 +1,4 @@
-import { IBasePortfolio } from "./IBasePortfolio";
+import { IBasePortfolio, IBasePortfolioData } from "./IBasePortfolio";
 import { IOutputter } from "../utils/IOutputter";
 import { ICustomer } from "./ICustomer";
 import { IModelHelper } from "../utils/IModelHelper";
@@ -6,6 +6,7 @@ import { IModelHelper } from "../utils/IModelHelper";
 interface ICustomerPortfolioData {
   customerId: number;
   basePortfolioId: number;
+  name?: string;
 }
 
 interface ICustomerPortfolio
@@ -20,6 +21,7 @@ interface ICustomerPortfolio
   getId: () => number;
   getCustomerId: () => number;
   getBasePortfolioId: () => number;
+  getBasePortfolioName: () => string;
 
   setBalance: (balance: number) => void;
   getBalance: () => number;
