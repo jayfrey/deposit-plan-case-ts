@@ -1,13 +1,17 @@
 import { IPortfolio } from "./IPortfolio";
-import { IOutputter } from "./IOutputter";
+import { IOutputter } from "../utils/IOutputter";
 import { ICustomer } from "./ICustomer";
+import { IModelHelper } from "../utils/IModelHelper";
 
 interface ICustomerPortfolioData {
   customerId: number;
   portfolioId: number;
 }
 
-interface ICustomerPortfolio extends ICustomerPortfolioData, IOutputter {
+interface ICustomerPortfolio
+  extends ICustomerPortfolioData,
+    IOutputter,
+    IModelHelper {
   id: number;
   customer?: ICustomer | null;
   portfolio?: IPortfolio | null;
@@ -24,7 +28,6 @@ interface ICustomerPortfolio extends ICustomerPortfolioData, IOutputter {
   refreshBalance: () => void;
   refreshCustomer: () => void;
   refreshPorfolio: () => void;
-  refresh: () => void;
 }
 
 export { ICustomerPortfolioData, ICustomerPortfolio };

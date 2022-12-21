@@ -1,12 +1,13 @@
-import { IOutputter } from "./IOutputter";
+import { IOutputter } from "../utils/IOutputter";
 import { IDepositPlan } from "./IDepositPlan";
 import { ICustomerPortfolio } from "./ICustomerPortfolio";
+import { IModelHelper } from "../utils/IModelHelper";
 
 interface ICustomerData {
   name: string;
 }
 
-interface ICustomer extends ICustomerData, IOutputter {
+interface ICustomer extends ICustomerData, IOutputter, IModelHelper {
   id: number;
   customerPortfolios?: ICustomerPortfolio[];
   depositPlans?: IDepositPlan[];
@@ -19,7 +20,6 @@ interface ICustomer extends ICustomerData, IOutputter {
 
   refreshCustomerPortfolios: (customerPortfolios: ICustomerPortfolio[]) => void;
   refreshDepositPlans: (depositPlans: IDepositPlan[]) => void;
-  refresh: () => void;
 }
 
 export { ICustomerData, ICustomer };

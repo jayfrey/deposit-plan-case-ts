@@ -1,4 +1,4 @@
-import { IOutputter } from "./IOutputter";
+import { IOutputter } from "../utils/IOutputter";
 
 interface IDepositData {
   depositPlanId: number;
