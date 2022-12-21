@@ -10,6 +10,7 @@ export class DepositPlanRepository implements IDepositPlanRepository {
   findAll() {
     return depositPlanData;
   }
+
   findById(id: number) {
     return (
       depositPlanData.find((depositPlan: IDepositPlan) => {
@@ -19,6 +20,7 @@ export class DepositPlanRepository implements IDepositPlanRepository {
       }) || null
     );
   }
+
   create({ customerId, type }: IDepositPlanData) {
     var depositPlan = new DepositPlan(customerId, type);
     depositPlanData.push(depositPlan);

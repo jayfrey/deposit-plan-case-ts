@@ -1,7 +1,6 @@
 import { depositData } from "../data/Deposits";
-import { IDeposit, IDepositData } from "../interfaces/models/IDeposit";
+import { IDeposit } from "../interfaces/models/IDeposit";
 import { IDepositPlan } from "../interfaces/models/IDepositPlan";
-import { Deposit } from "./Deposit";
 
 export class DepositPlan implements IDepositPlan {
   static nextVal: number = 0;
@@ -35,6 +34,10 @@ export class DepositPlan implements IDepositPlan {
     return this.deposits || [];
   }
 
+  getTotalFundDeposit() {
+    return this.totalFundDeposit;
+  }
+
   refreshTotalFundDeposit() {
     this.totalFundDeposit =
       this.deposits?.reduce((total: number, deposit: IDeposit) => {
@@ -56,9 +59,12 @@ export class DepositPlan implements IDepositPlan {
   toJSON() {
     return {
       id: this.id,
+      customer_id: this.customerId,
       type: this.type,
-      deposit: this.deposits,
-      // total: this.total,
+      deposits: this.deposits?.map((deposit: IDeposit) => {
+        return deposit.toJSON();
+      }),
+      total_fund_deposit: this.totalFundDeposit,
     };
   }
 
@@ -66,46 +72,3 @@ export class DepositPlan implements IDepositPlan {
     return JSON.stringify(this.toJSON());
   }
 }
-
-// export class DepositPlan extends Deposit implements IDepositPlan {
-//   static nextVal: number = 0;
-//   id: number;
-//   type: number;
-//   deposits: IDeposit[];
-//   total: number;
-
-//   constructor(type: number, deposits: IDeposit[]) {
-//     super();
-//     this.id = ++DepositPlan.nextVal;
-//     this.type = type;
-//     this.deposits = deposits;
-//     this.total = this.getTotalDeposit();
-//   }
-
-//   getType() {
-//     return this.type;
-//   }
-
-//   getDeposits() {
-//     return this.deposits;
-//   }
-
-//   getTotalDeposit() {
-//     return this.getDeposits().reduce((total: number, deposit: Deposit) => {
-//       return total + deposit.getAmount();
-//     }, 0.0);
-//   }
-
-//   toJSON() {
-//     return {
-//       id: this.id,
-//       type: this.type,
-//       deposit: this.deposits,
-//       total: this.total,
-//     };
-//   }
-
-//   toString() {
-//     return JSON.stringify(this.toJSON());
-//   }
-// }

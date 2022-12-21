@@ -30,7 +30,11 @@ export class Customer implements ICustomer {
   }
 
   getCustomerPortfolio() {
-    return this.customerPortfolios;
+    return this.customerPortfolios || [];
+  }
+
+  getDepositPlans() {
+    return this.depositPlans || [];
   }
 
   refreshCustomerPortfolios() {
@@ -56,8 +60,14 @@ export class Customer implements ICustomer {
     return {
       id: this.id,
       name: this.name,
-      // portfolios: this.portfolios,
-      // depositPlans: this.depositPlans,
+      customer_portfolios: this.customerPortfolios?.map(
+        (customerPortfolio: ICustomerPortfolio) => {
+          return customerPortfolio.toJSON();
+        }
+      ),
+      deposit_plans: this.depositPlans?.map((depositPlan: IDepositPlan) => {
+        return depositPlan.toJSON();
+      }),
     };
   }
 

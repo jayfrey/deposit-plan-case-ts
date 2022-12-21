@@ -1,16 +1,18 @@
+import { IOutputter } from "./IOutputter";
+
 interface IDepositData {
   depositPlanId: number;
   customerPortfolioId: number;
   amount: number;
 }
 
-interface IDeposit extends IDepositData {
+interface IDeposit extends IDepositData, IOutputter {
   id: number;
 
   getId: () => number;
-  getAmount: () => number;
-  getCustomerPortfolioId: () => number;
   getDepositPlanId: () => number;
+  getCustomerPortfolioId: () => number;
+  getAmount: () => number;
 }
 
 export { IDepositData, IDeposit };

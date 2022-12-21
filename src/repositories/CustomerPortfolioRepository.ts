@@ -12,6 +12,7 @@ export class CustomerPortfolioRepository
   findAll() {
     return customerPortfolioData;
   }
+
   findById(id: number) {
     return (
       customerPortfolioData.find((customerPortfolio: ICustomerPortfolio) => {
@@ -21,6 +22,7 @@ export class CustomerPortfolioRepository
       }) || null
     );
   }
+
   create({ customerId, portfolioId }: ICustomerPortfolioData) {
     var customerPortfolio = new CustomerPortfolio(customerId, portfolioId);
     customerPortfolioData.push(customerPortfolio);

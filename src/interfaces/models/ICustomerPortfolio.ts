@@ -5,13 +5,13 @@ import { ICustomer } from "./ICustomer";
 interface ICustomerPortfolioData {
   customerId: number;
   portfolioId: number;
-  balance?: number;
 }
 
 interface ICustomerPortfolio extends ICustomerPortfolioData, IOutputter {
   id: number;
   customer?: ICustomer | null;
   portfolio?: IPortfolio | null;
+  balance: number;
 
   getId: () => number;
   getCustomerId: () => number;

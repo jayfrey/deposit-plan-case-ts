@@ -12,7 +12,7 @@ export class CustomerPortfolio implements ICustomerPortfolio {
   id: number;
   customerId: number;
   portfolioId: number;
-  balance: number;
+  balance: number = 0.0;
   customer?: ICustomer | null;
   portfolio?: IPortfolio | null;
 
@@ -20,7 +20,6 @@ export class CustomerPortfolio implements ICustomerPortfolio {
     this.id = ++CustomerPortfolio.nextVal;
     this.customerId = customerId;
     this.portfolioId = portfolioId;
-    this.balance = 0.0;
     this.refresh();
   }
 
@@ -85,30 +84,6 @@ export class CustomerPortfolio implements ICustomerPortfolio {
     this.refreshPorfolio();
     this.refreshBalance();
   }
-
-  //   setName(name: string) {
-  //     this.name = name;
-  //   }
-
-  //   getName() {
-  //     return this.name;
-  //   }
-
-  //   setPortfolios(portfolios: IPortfolio[]) {
-  //     this.portfolios = portfolios;
-  //   }
-
-  //   getPortfolios() {
-  //     return this.portfolios;
-  //   }
-
-  //   setDepositPlans(depositPlans: IDepositPlan[]) {
-  //     this.depositPlans = depositPlans;
-  //   }
-
-  //   getDepositPlans() {
-  //     return this.depositPlans;
-  //   }
 
   toJSON() {
     return {

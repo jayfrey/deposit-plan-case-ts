@@ -14,6 +14,8 @@ interface ICustomer extends ICustomerData, IOutputter {
   getId: () => number;
   setName: (name: string) => void;
   getName: () => string;
+  getCustomerPortfolio: () => ICustomerPortfolio[];
+  getDepositPlans: () => IDepositPlan[];
 
   refreshCustomerPortfolios: (customerPortfolios: ICustomerPortfolio[]) => void;
   refreshDepositPlans: (depositPlans: IDepositPlan[]) => void;

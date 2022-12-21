@@ -1,3 +1,4 @@
+import { Settings } from "../constants/Settings";
 import { IDepositPlanData } from "../interfaces/models/IDepositPlan";
 import { IDepositPlanRepository } from "../interfaces/repositories/IDepositPlanRespository";
 import { ICustomerService } from "../interfaces/services/ICustomerService";
@@ -26,11 +27,19 @@ export class DepositPlanService implements IDepositPlanService {
     var customer = this.customerService.findById(data.customerId);
 
     if (customer != null) {
-      var depositPlan = this.depositPlanRepository.create(data);
+      if (customer.depositPlans!.length < Settings.MAX_DEPOSIT_PLAN) {
+        var depositPlan = this.depositPlanRepository.create(data);
 
-      if (depositPlan != null) {
-        customer.refresh();
-        return depositPlan;
+        if (depositPlan != null) {
+          customer.refresh();
+          return depositPlan;
+        }
+      } else {
+        console.log(
+          "You've reached the maximum number of deposit plans." +
+            "The maximum number of deposit plans is " +
+            Settings.MAX_DEPOSIT_PLAN
+        );
       }
     }
     return null;

@@ -22,15 +22,28 @@ export class Deposit implements IDeposit {
     return this.id;
   }
 
-  getAmount() {
-    return this.amount;
+  getDepositPlanId() {
+    return this.depositPlanId;
   }
 
   getCustomerPortfolioId() {
     return this.customerPortfolioId;
   }
 
-  getDepositPlanId() {
-    return this.depositPlanId;
+  getAmount() {
+    return this.amount;
+  }
+
+  toJSON() {
+    return {
+      id: this.id,
+      deposit_plan_id: this.depositPlanId,
+      customer_portfolio_id: this.customerPortfolioId,
+      amount: this.amount,
+    };
+  }
+
+  toString() {
+    return JSON.stringify(this.toJSON());
   }
 }

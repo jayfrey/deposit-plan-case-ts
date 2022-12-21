@@ -1,4 +1,7 @@
-import { ICustomerPortfolio } from "../models/ICustomerPortfolio";
+import {
+  ICustomerPortfolio,
+  ICustomerPortfolioData,
+} from "../models/ICustomerPortfolio";
 import { ICustomerPortfolioRepository } from "../repositories/ICustomerPortfolioRepository";
 import { ICustomerService } from "./ICustomerService";
 import { IPortfolioService } from "./IPortfolioService";
@@ -10,8 +13,5 @@ export interface ICustomerPorfolioService {
 
   findAll: () => ICustomerPortfolio[];
   findById: (id: number) => ICustomerPortfolio | null;
-  create: (data: {
-    customerId: number;
-    portfolioId: number;
-  }) => ICustomerPortfolio | null;
+  create: (data: ICustomerPortfolioData) => ICustomerPortfolio | null;
 }
