@@ -1,10 +1,10 @@
 import { IOutputter } from "../utils/IOutputter";
 
-interface IPortfolioData {
+interface IBasePortfolioData {
   name: string;
 }
 
-interface IPortfolio extends IPortfolioData, IOutputter {
+interface IBasePortfolio extends IBasePortfolioData, IOutputter {
   id: number;
 
   getId: () => number;
@@ -12,4 +12,4 @@ interface IPortfolio extends IPortfolioData, IOutputter {
   getName: () => string;
 }
 
-export { IPortfolioData, IPortfolio };
+export { IBasePortfolioData, IBasePortfolio };

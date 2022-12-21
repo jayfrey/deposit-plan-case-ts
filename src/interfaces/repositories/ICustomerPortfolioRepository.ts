@@ -8,6 +8,6 @@ export interface ICustomerPortfolioRepository {
   findById: (id: number) => ICustomerPortfolio | null;
   create: ({
     customerId,
-    portfolioId,
+    basePortfolioId,
   }: ICustomerPortfolioData) => ICustomerPortfolio;
 }

@@ -23,8 +23,8 @@ export class CustomerPortfolioRepository
     );
   }
 
-  create({ customerId, portfolioId }: ICustomerPortfolioData) {
-    var customerPortfolio = new CustomerPortfolio(customerId, portfolioId);
+  create({ customerId, basePortfolioId }: ICustomerPortfolioData) {
+    var customerPortfolio = new CustomerPortfolio(customerId, basePortfolioId);
     customerPortfolioData.push(customerPortfolio);
     return customerPortfolio;
   }

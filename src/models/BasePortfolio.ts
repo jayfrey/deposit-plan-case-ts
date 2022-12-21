@@ -1,12 +1,12 @@
-import { IPortfolio } from "../interfaces/models/IPortfolio";
+import { IBasePortfolio } from "../interfaces/models/IBasePortfolio";
 
-export class Portfolio implements IPortfolio {
+export class BasePortfolio implements IBasePortfolio {
   static nextVal: number = 0;
   id: number;
   name: string;
 
   constructor(name: string) {
-    this.id = ++Portfolio.nextVal;
+    this.id = ++BasePortfolio.nextVal;
     this.name = name;
   }
 

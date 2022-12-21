@@ -1,25 +1,25 @@
 import { customerData } from "../data/CustomerData";
 import { depositPlanData } from "../data/DepositPlanData";
-import { portfolioData } from "../data/Portfolios";
+import { basePortfolioData } from "../data/BasePortfolioData";
 import { ICustomer } from "../interfaces/models/ICustomer";
 import { ICustomerPortfolio } from "../interfaces/models/ICustomerPortfolio";
 import { IDeposit } from "../interfaces/models/IDeposit";
 import { IDepositPlan } from "../interfaces/models/IDepositPlan";
-import { IPortfolio } from "../interfaces/models/IPortfolio";
+import { IBasePortfolio } from "../interfaces/models/IBasePortfolio";
 
 export class CustomerPortfolio implements ICustomerPortfolio {
   static nextVal: number = 0;
   id: number;
   customerId: number;
-  portfolioId: number;
+  basePortfolioId: number;
   balance: number = 0.0;
   customer?: ICustomer | null;
-  portfolio?: IPortfolio | null;
+  basePortfolio?: IBasePortfolio | null;
 
-  constructor(customerId: number, portfolioId: number) {
+  constructor(customerId: number, basePortfolioId: number) {
     this.id = ++CustomerPortfolio.nextVal;
     this.customerId = customerId;
-    this.portfolioId = portfolioId;
+    this.basePortfolioId = basePortfolioId;
     this.refresh();
   }
 
@@ -31,8 +31,8 @@ export class CustomerPortfolio implements ICustomerPortfolio {
     return this.customerId;
   }
 
-  getPortfolioId() {
-    return this.portfolioId;
+  getBasePortfolioId() {
+    return this.basePortfolioId;
   }
 
   setBalance(balance: number) {
@@ -43,12 +43,12 @@ export class CustomerPortfolio implements ICustomerPortfolio {
     return this.balance;
   }
 
-  getPortfolio() {
-    return this.portfolio || null;
+  getBasePortfolio() {
+    return this.basePortfolio || null;
   }
 
   refreshBalance() {
-    var balance = 0;
+    var balance = 0.0;
     depositPlanData.map((depositPlan: IDepositPlan) => {
       if (depositPlan.getCustomerId() == this.customerId) {
         depositPlan.getDeposits().map((deposit: IDeposit) => {
@@ -70,26 +70,26 @@ export class CustomerPortfolio implements ICustomerPortfolio {
       }) || null;
   }
 
-  refreshPorfolio() {
-    this.portfolio =
-      portfolioData.find((portfolio: IPortfolio) => {
-        if (portfolio.getId() === this.portfolioId) {
-          return portfolio;
+  refreshBasePorfolio() {
+    this.basePortfolio =
+      basePortfolioData.find((basePortfolio: IBasePortfolio) => {
+        if (basePortfolio.getId() === this.basePortfolioId) {
+          return basePortfolio;
         }
       }) || null;
   }
 
   refresh() {
     this.refreshCustomer();
-    this.refreshPorfolio();
+    this.refreshBasePorfolio();
     this.refreshBalance();
   }
 
   toJSON() {
     return {
       id: this.id,
-      customerId: this.customerId,
-      portfolioId: this.portfolioId,
+      customer_id: this.customerId,
+      base_portfolio_id: this.basePortfolioId,
       balance: this.balance,
     };
   }

@@ -1,84 +1,93 @@
 import { DepositPlanTypes } from "./enums/DepositPlanTypes";
-import { PortfolioService } from "./services/PortfolioService";
+import { BasePortfolioService } from "./services/BasePortfolioService";
 import { DepositService } from "./services/DepositService";
 import { CustomerService } from "./services/CustomerService";
 import { CustomerPorfolioService } from "./services/CustomerPortfolioService";
 import { DepositPlanService } from "./services/DepositPlanService";
-import { IDepositPlan } from "./interfaces/models/IDepositPlan";
 
 var customerService = new CustomerService();
-var portfolioService = new PortfolioService();
+var basePortfolioService = new BasePortfolioService();
 var customerPortfolioService = new CustomerPorfolioService();
 var depositPlanService = new DepositPlanService();
 var depositService = new DepositService();
 
-var customer1 = customerService.create({ name: "Jay" });
-customerService.create({ name: "William" });
+function setupData() {
+  customerService.create({ name: "Jay" });
+  customerService.create({ name: "William" });
 
-var portfolio1 = portfolioService.create({ name: "High Risk" });
-var portfolio2 = portfolioService.create({ name: "Retirement" });
+  basePortfolioService.create({ name: "General Investing" });
+  basePortfolioService.create({ name: "Responsible Investing" });
+}
 
-var customerHighRiskPortfolio = customerPortfolioService.create({
-  customerId: customer1.getId(),
-  portfolioId: portfolio1.getId(),
-});
+function createCustomerPortfolio() {
+  var customer = customerService.findById(2)!; // Returns customer William
+  var highRiskPortfolio = basePortfolioService.findById(1)!; // Returns base portfolio of General Investing
+  var retirementPortfolio = basePortfolioService.findById(2)!; // Return base portoflio of Responsible Investing
 
-var customerRetirementPortfolio = customerPortfolioService.create({
-  customerId: customer1.getId(),
-  portfolioId: portfolio2.getId(),
-});
+  customerPortfolioService.create({
+    customerId: customer.getId(),
+    basePortfolioId: highRiskPortfolio.getId(),
+  });
 
-var depositPlan1 = depositPlanService.create({
-  customerId: customer1.getId(),
-  type: DepositPlanTypes.ONE_TIME,
-});
+  customerPortfolioService.create({
+    customerId: customer.getId(),
+    basePortfolioId: retirementPortfolio.getId(),
+  });
+}
 
-var deposit1 = depositService.create({
-  depositPlanId: depositPlan1!.getId(),
-  customerPortfolioId: customerHighRiskPortfolio!.getId(),
-  amount: 10000,
-});
+function setupDepositPlans() {
+  var customer = customerService.findById(2)!; // Returns customer William
+  var customerHighRiskPortfolio = customerPortfolioService.findById(1); // Returns William's High Risk portfolio
+  var customerRetirementPortfolio = customerPortfolioService.findById(2); // Returns William's Retirement portfolio
 
-var deposit2 = depositService.create({
-  depositPlanId: depositPlan1!.getId(),
-  customerPortfolioId: customerRetirementPortfolio!.getId(),
-  amount: 500,
-});
+  // One time (High risk: $10,000, Retirement: $500)
+  var depositPlan1 = depositPlanService.create({
+    customerId: customer.getId(),
+    type: DepositPlanTypes.ONE_TIME,
+  });
 
-var depositPlan2 = depositPlanService.create({
-  customerId: customer1.getId(),
-  type: DepositPlanTypes.MONTHLY,
-});
+  depositService.create({
+    depositPlanId: depositPlan1!.getId(),
+    customerPortfolioId: customerHighRiskPortfolio!.getId(),
+    amount: 10000,
+  });
 
-var deposit1 = depositService.create({
-  depositPlanId: depositPlan2!.getId(),
-  customerPortfolioId: customerHighRiskPortfolio!.getId(),
-  amount: 0,
-});
+  depositService.create({
+    depositPlanId: depositPlan1!.getId(),
+    customerPortfolioId: customerRetirementPortfolio!.getId(),
+    amount: 500,
+  });
 
-var deposit2 = depositService.create({
-  depositPlanId: depositPlan2!.getId(),
-  customerPortfolioId: customerRetirementPortfolio!.getId(),
-  amount: 100,
-});
+  // Monthly (High risk: $0, Retirement: $100)
+  var depositPlan2 = depositPlanService.create({
+    customerId: customer.getId(),
+    type: DepositPlanTypes.MONTHLY,
+  });
 
-var depositPlan3 = depositPlanService.create({
-  customerId: customer1.getId(),
-  type: DepositPlanTypes.MONTHLY,
-});
+  depositService.create({
+    depositPlanId: depositPlan2!.getId(),
+    customerPortfolioId: customerHighRiskPortfolio!.getId(),
+    amount: 0,
+  });
 
-// console.log(depositPlan1);
+  depositService.create({
+    depositPlanId: depositPlan2!.getId(),
+    customerPortfolioId: customerRetirementPortfolio!.getId(),
+    amount: 100,
+  });
+}
 
-// console.log(depositService.findAll());
-// console.log(customerPortfolioService.findAll());
-// customer1.getPortfolios();
-// console.log(customerService.findAll());
-// console.log(customer1);
-console.log(
-  customerService
-    .findById(1)
-    ?.getDepositPlans()
-    .map((depositPlan: IDepositPlan) => {
-      return depositPlan.toJSON();
-    })
-);
+setupData();
+createCustomerPortfolio();
+setupDepositPlans();
+
+console.log(customerService.findById(2));
+
+// console.log(
+//   customerService
+//     .findById(2)
+//     ?.getDepositPlans()
+//     .map((depositPlan: IDepositPlan) => {
+//       return depositPlan.toJSON();
+//     })
+// );

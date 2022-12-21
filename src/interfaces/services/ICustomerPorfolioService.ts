@@ -4,11 +4,11 @@ import {
 } from "../models/ICustomerPortfolio";
 import { ICustomerPortfolioRepository } from "../repositories/ICustomerPortfolioRepository";
 import { ICustomerService } from "./ICustomerService";
-import { IPortfolioService } from "./IPortfolioService";
+import { IBasePortfolioService } from "./IBasePortfolioService";
 
 export interface ICustomerPorfolioService {
   customerService: ICustomerService;
-  portfolioService: IPortfolioService;
+  basePortfolioService: IBasePortfolioService;
   customerPortfolioRepository: ICustomerPortfolioRepository;
 
   findAll: () => ICustomerPortfolio[];

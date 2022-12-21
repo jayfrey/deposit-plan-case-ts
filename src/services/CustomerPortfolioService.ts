@@ -1,20 +1,20 @@
 import { ICustomerService } from "../interfaces/services/ICustomerService";
 import { ICustomerPorfolioService } from "../interfaces/services/ICustomerPorfolioService";
-import { IPortfolioService } from "../interfaces/services/IPortfolioService";
+import { IBasePortfolioService } from "../interfaces/services/IBasePortfolioService";
 import { CustomerService } from "./CustomerService";
-import { PortfolioService } from "./PortfolioService";
+import { BasePortfolioService } from "./BasePortfolioService";
 import { CustomerPortfolioRepository } from "../repositories/CustomerPortfolioRepository";
 import { ICustomerPortfolioRepository } from "../interfaces/repositories/ICustomerPortfolioRepository";
 import { ICustomerPortfolioData } from "../interfaces/models/ICustomerPortfolio";
 
 export class CustomerPorfolioService implements ICustomerPorfolioService {
   customerService: ICustomerService;
-  portfolioService: IPortfolioService;
+  basePortfolioService: IBasePortfolioService;
   customerPortfolioRepository: ICustomerPortfolioRepository;
 
   constructor() {
     this.customerService = new CustomerService();
-    this.portfolioService = new PortfolioService();
+    this.basePortfolioService = new BasePortfolioService();
     this.customerPortfolioRepository = new CustomerPortfolioRepository();
   }
 
@@ -29,9 +29,11 @@ export class CustomerPorfolioService implements ICustomerPorfolioService {
   // To handle portfolio or customer when is not found
   create(data: ICustomerPortfolioData) {
     var customer = this.customerService.findById(data.customerId);
-    var portfolio = this.portfolioService.findById(data.portfolioId);
+    var basePortfolio = this.basePortfolioService.findById(
+      data.basePortfolioId
+    );
 
-    if (customer != null && portfolio != null) {
+    if (customer != null && basePortfolio != null) {
       var customerPortfolio = this.customerPortfolioRepository.create(data);
 
       if (customerPortfolio != null) {
