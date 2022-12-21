@@ -1,6 +1,6 @@
-import { customers } from "../data/Customers";
+import { customerData } from "../data/CustomerData";
 import { depositPlanData } from "../data/DepositPlanData";
-import { portfolios } from "../data/Portfolios";
+import { portfolioData } from "../data/Portfolios";
 import { ICustomer } from "../interfaces/models/ICustomer";
 import { ICustomerPortfolio } from "../interfaces/models/ICustomerPortfolio";
 import { IDeposit } from "../interfaces/models/IDeposit";
@@ -63,7 +63,7 @@ export class CustomerPortfolio implements ICustomerPortfolio {
 
   refreshCustomer() {
     this.customer =
-      customers.find((customer: ICustomer) => {
+      customerData.find((customer: ICustomer) => {
         if (customer.getId() === this.customerId) {
           return customer;
         }
@@ -72,7 +72,7 @@ export class CustomerPortfolio implements ICustomerPortfolio {
 
   refreshPorfolio() {
     this.portfolio =
-      portfolios.find((portfolio: IPortfolio) => {
+      portfolioData.find((portfolio: IPortfolio) => {
         if (portfolio.getId() === this.portfolioId) {
           return portfolio;
         }

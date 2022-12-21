@@ -1,16 +1,16 @@
-import { customers } from "../data/Customers";
+import { customerData } from "../data/CustomerData";
 import { ICustomer, ICustomerData } from "../interfaces/models/ICustomer";
 import { ICustomerRepository } from "../interfaces/repositories/ICustomerRepository";
 import { Customer } from "../models/Customer";
 
 export class CustomerRepository implements ICustomerRepository {
   findAll() {
-    return customers;
+    return customerData;
   }
 
   findById(id: number) {
     return (
-      customers.find((customer: ICustomer) => {
+      customerData.find((customer: ICustomer) => {
         if (customer.getId() === id) {
           return customer;
         }
@@ -20,7 +20,7 @@ export class CustomerRepository implements ICustomerRepository {
 
   create({ name }: ICustomerData) {
     var customer = new Customer(name);
-    customers.push(customer);
+    customerData.push(customer);
     return customer;
   }
 }
