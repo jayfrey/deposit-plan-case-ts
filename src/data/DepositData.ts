@@ -1,3 +1,3 @@
-import { IDeposit } from "../interfaces/models/IDeposit";
+import { IDeposit } from "../modules/deposit/interfaces/IDeposit";
 
 export var depositData: IDeposit[] = [];

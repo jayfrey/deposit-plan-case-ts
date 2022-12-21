@@ -1,3 +1,3 @@
-import { ICustomer } from "../interfaces/models/ICustomer";
+import { ICustomer } from "../modules/customer/interfaces/ICustomer";
 
 export var customerData: ICustomer[] = [];

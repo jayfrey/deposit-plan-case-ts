@@ -1,3 +1,3 @@
-import { ICustomerPortfolio } from "../interfaces/models/ICustomerPortfolio";
+import { ICustomerPortfolio } from "../modules/portfolio/interfaces/ICustomerPortfolio";
 
 export var customerPortfolioData: ICustomerPortfolio[] = [];

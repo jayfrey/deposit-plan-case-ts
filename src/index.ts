@@ -1,9 +1,9 @@
 import { DepositPlanTypes } from "./enums/DepositPlanTypes";
-import { BasePortfolioService } from "./services/BasePortfolioService";
-import { DepositService } from "./services/DepositService";
-import { CustomerService } from "./services/CustomerService";
-import { CustomerPorfolioService } from "./services/CustomerPortfolioService";
-import { DepositPlanService } from "./services/DepositPlanService";
+import { BasePortfolioService } from "./modules/portfolio/services/BasePortfolioService";
+import { DepositService } from "./modules/deposit/services/DepositService";
+import { CustomerService } from "./modules/customer/services/CustomerService";
+import { CustomerPorfolioService } from "./modules/portfolio/services/CustomerPortfolioService";
+import { DepositPlanService } from "./modules/deposit/services/DepositPlanService";
 
 var customerService = new CustomerService();
 var basePortfolioService = new BasePortfolioService();
@@ -11,7 +11,7 @@ var customerPortfolioService = new CustomerPorfolioService();
 var depositPlanService = new DepositPlanService();
 var depositService = new DepositService();
 
-function setupData() {
+function setupBasicData() {
   customerService.create({ name: "Jay" });
   customerService.create({ name: "William" });
 
@@ -79,17 +79,11 @@ function setupDepositPlans() {
   });
 }
 
-setupData();
-createCustomerPortfolio();
-setupDepositPlans();
+function demo() {
+  setupBasicData(); // Create customer profile and base portfolio
+  createCustomerPortfolio(); // Create customer portfolio
+  setupDepositPlans(); // Create deposit plans
+}
 
+demo();
 console.log(customerService.findById(2));
-
-// console.log(
-//   customerService
-//     .findById(2)
-//     ?.getDepositPlans()
-//     .map((depositPlan: IDepositPlan) => {
-//       return depositPlan.toJSON();
-//     })
-// );
