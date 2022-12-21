@@ -1,3 +1,3 @@
-import { IBasePortfolio } from "../interfaces/models/IBasePortfolio";
+import { IBasePortfolio } from "../modules/portfolio/interfaces/IBasePortfolio";
 
 export var basePortfolioData: IBasePortfolio[] = [];
