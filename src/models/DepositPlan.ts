@@ -1,4 +1,4 @@
-import { depositData } from "../data/Deposits";
+import { depositData } from "../data/DepositData";
 import { IDeposit } from "../interfaces/models/IDeposit";
 import { IDepositPlan } from "../interfaces/models/IDepositPlan";
 
